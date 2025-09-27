@@ -1,47 +1,47 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import toast from "react-hot-toast";
 import { servicesApi } from "@/services";
-import { cartContext } from "@/Context/cartContext";
-import { CreateOrderResponse } from "@/interfaces";
+import { useCartContext } from "@/Context/cartContext";
+import { CreateOrderResponse, OrderData } from "@/interfaces";
 
 export default function CheckoutPage() {
-  const { cartId } = useContext(cartContext); 
+  const { cartId } = useCartContext();
+
   const [loading, setLoading] = useState(false);
-  const [onLinePay, setOnLinePay] = useState(false)
-  const [orderData, setOrderData] = useState(null);
-const router = useRouter();
+  const [onLinePay, setOnLinePay] = useState(false);
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
+  const router = useRouter();
   const [form, setForm] = useState({ details: "", phone: "", city: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   // 🟢 كاش
-  const handleCashOrder = async () => {
-    if (!cartId) return toast.error("Cart not found");
-    setLoading(true);
-    try {
-      const response:CreateOrderResponse = await servicesApi.createCashOrder(cartId, form);
-      toast.success("Cash order created");
-          // 🟢 روح لصفحة Order Success ومعاك orderId
-    router.push(`/order-success/${response.data._id}`);
-      console.log("Cash Order:", response);
-      setOrderData(response.data)
-    } catch (err) {
-      toast.error("Failed to create Cash Order");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  // 🟡 أونلاين
+
+const handleCashOrder = async () => {
+  if (!cartId) return toast.error("Cart not found");
+  setLoading(true);
+  try {
+    const response: CreateOrderResponse = await servicesApi.createCashOrder(cartId, form);
+    setOrderData(response.data);
+    toast.success("Cash order created");
+    router.push(`/allorders/${response.data._id}`);
+  } catch (err) {
+    toast.error("Failed to create Cash Order");
+  } finally {
+    setLoading(false);
+  }
+};
+
+
   const handleOnlineOrder = async () => {
     if (!cartId) return toast.error("Cart not found");
     setOnLinePay(true);

@@ -28,5 +28,5 @@ export type AddToCartResponse = {
   message: string;
   numOfCartItems: number;
   cartId: string;
-  data: CartData;
+  data: CartData<Product>;
 };

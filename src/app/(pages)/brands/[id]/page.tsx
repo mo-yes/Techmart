@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext} from "react";
+import { useState, useEffect} from "react";
 import Image from "next/image";
 import { useParams, } from "next/navigation";
 import { Product} from "@/interfaces";
@@ -8,8 +8,7 @@ import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { ProductsResponse } from "@/types";
 import { servicesApi } from "@/services";
 import AddToCartButton from "@/components/products/AddToCartButton";
-import ViewButton from "@/components/brands/ViewButton";
-import { cartContext } from "@/Context/cartContext";
+import { useCartContext } from "@/Context/cartContext";
 import Link from "next/link";
 
 export default function BrandDetailPage() {
@@ -17,14 +16,14 @@ export default function BrandDetailPage() {
     const [brandProducts, setBrandProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const {handleAddToCart } = useContext(cartContext);
+    const { handleAddToCart } = useCartContext();
+
     const [isLoading, setIsLoading] = useState(false)
 
     async function fetchBrandDetails(){
     setLoading(true)
     const data:ProductsResponse = await servicesApi.getProductsByBrand( String(id))
     setLoading(false)
-    console.log(data.data)
     setBrandProducts(data.data)
     };
 
@@ -140,7 +139,10 @@ export default function BrandDetailPage() {
               {/* Actions */}
               <div className="flex items-center justify-center  mt-4">
               </div>
-              <AddToCartButton handleAddToCart={handleAddToCart}  />
+              <AddToCartButton 
+    productQuantity={product.quantity} 
+    handleAddToCart={() => handleAddToCart(product._id, setIsLoading)} 
+/>
             </div>
           </article>
         ))}

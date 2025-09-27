@@ -1,14 +1,18 @@
 export interface Address {
-  _id: string
-  name: string
-  details: string
-  phone: string
-  city: string
+  _id: string;
+  name: string;
+  details: string;
+  phone: string;
+  city: string;
 }
 
 export interface AddressesResponse {
-  status: string
-  message: string
-  data: Address[]
+  status: string;
+  results: number;
+  data: Address[];
 }
 
+export interface AddressResponse {
+  status: string;
+  data: Address;
+}

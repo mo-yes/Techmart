@@ -1,31 +1,42 @@
-"use client"
+"use client";
 
-import { Button, LoadingSpinner } from '@/components'
-import AddToCartButton from '@/components/products/AddToCartButton'
-import { Category } from '@/interfaces'
-import { servicesApi } from '@/services'
-import { SingleCategoryResponse } from '@/types'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { Button, LoadingSpinner } from '@/components';
+import AddToCartButton from '@/components/products/AddToCartButton';
+import { useCartContext } from '@/Context/cartContext';
+import { Category } from '@/interfaces';
+import { servicesApi } from '@/services';
+import { SingleCategoryResponse } from '@/types';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+
 
 export default function CategoriesDetailsPage() {
-  const { id } = useParams()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [singleCategory, setSingleCategory] = useState<Category | null>(null)
+  const { handleAddToCart } = useCartContext();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [singleCategory, setSingleCategory] = useState<Category | null>(null);
 
   async function fetchCategoryDetails() {
-        setLoading(true)
-    const data:SingleCategoryResponse = await servicesApi.getCategorieDetails(String(id))
-    setLoading(false)
-    setSingleCategory(data.data)
+    try {
+      setLoading(true);
+      const data: SingleCategoryResponse = await servicesApi.getCategorieDetails(String(id));
+      setSingleCategory(data.data);
+    } catch (err) {
+      setError("Failed to fetch category");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
+  }
 
   useEffect(() => {
-    fetchCategoryDetails()
-  }, [])
+    fetchCategoryDetails();
+  }, []);
 
   if (loading) {
     return (
@@ -34,7 +45,7 @@ export default function CategoriesDetailsPage() {
           <LoadingSpinner />
         </div>
       </div>
-    )
+    );
   }
 
   if (error || !singleCategory) {
@@ -45,7 +56,7 @@ export default function CategoriesDetailsPage() {
           <Button onClick={() => window.history.back()}>Go Back</Button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -55,15 +66,15 @@ export default function CategoriesDetailsPage() {
         <div className="relative w-32 h-32 rounded-xl overflow-hidden shadow-md">
           {singleCategory.image ? (
             <Image
-              src={singleCategory?.image}
-              alt={singleCategory?.name}
+              src={singleCategory.image || "/placeholder.png"} // fallback image
+              alt={singleCategory.name || "Category Image"}
               fill
               className="object-cover"
               sizes="128px"
             />
           ) : (
             <span className="text-4xl font-bold text-black uppercase flex items-center justify-center h-full w-full">
-              {singleCategory?.name || "C"}
+              {singleCategory.name?.[0] || "C"}
             </span>
           )}
         </div>
@@ -90,10 +101,10 @@ export default function CategoriesDetailsPage() {
         >
           <div className="relative w-full aspect-[4/3] bg-gray-50">
             <Image
-              src={singleCategory.image}
-              alt={singleCategory.name}
+              src={singleCategory.image || "/placeholder.png"} // fallback
+              alt={singleCategory.name || "Category Image"}
               fill
-              className="object-cover object-fill transition-transform duration-300 group-hover:scale-105"
+              className=" object-fill transition-transform duration-300 group-hover:scale-105"
               sizes="(min-width: 768px) 400px, 100vw"
             />
           </div>
@@ -108,11 +119,17 @@ export default function CategoriesDetailsPage() {
               </p>
             </Link>
             <div className="flex justify-center md:justify-start">
-              <AddToCartButton handleAddToCart={() => handleAddToCart(singleCategory._id)} />
+              <AddToCartButton
+                productQuantity={1}
+                handleAddToCart={() =>
+                  handleAddToCart(singleCategory._id, setIsAddingToCart)
+                }
+                isAddingToCart={isAddingToCart}
+              />
             </div>
           </div>
         </article>
       </div>
     </section>
-  )
+  );
 }

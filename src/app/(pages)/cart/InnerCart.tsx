@@ -1,13 +1,14 @@
 "use client"
 import { Button, Separator } from '@/components';
 import CartProduct from '@/components/products/CartProduct';
-import { cartContext } from '@/Context/cartContext';
+import { useCartContext } from '@/Context/cartContext';
 import { formatPrice } from '@/helpers/currency';
 import { GetToCartResponse } from '@/interfaces'
 import { servicesApi } from '@/services';
+import { getUserCart } from '@/services/cart.services';
 import { Loader2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 
 interface InnerCartProps{
@@ -17,7 +18,8 @@ interface InnerCartProps{
 export default function InnerCart({cartData}:InnerCartProps) {
     const [innerCartData, setInnerCartData] = useState<GetToCartResponse>(cartData);
     const [isLoadingRemoveCart, setIsLoadingRemoveCart] = useState(false);
-    const { setCartCount} = useContext(cartContext);
+    const { setCartCount } = useCartContext();
+
 
     useEffect(()=>{
         setCartCount!(innerCartData.numOfCartItems)
@@ -30,7 +32,7 @@ export default function InnerCart({cartData}:InnerCartProps) {
         toast.success("Product Deleted successfully",{
             position:"bottom-right"
         });
-        const nweResponse = await servicesApi.getCartProducts();
+        const nweResponse = await getUserCart()
         setInnerCartData(nweResponse);
     };
 
@@ -41,7 +43,7 @@ export default function InnerCart({cartData}:InnerCartProps) {
         toast.success("Your Card Removed successfully",{
             position:"bottom-right"
         });
-        const nweResponse = await servicesApi.getCartProducts();
+        const nweResponse = await getUserCart()
         setInnerCartData(nweResponse);
     };
 

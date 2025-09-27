@@ -13,7 +13,6 @@ interface CartProductProps{
     item:CartProductI <InnerCartProduct>;
     handleRemoveCartItem:(
         productId:string,
-        count:number,
         setIsLoadingRemoveProduct: (value:boolean)=> void
     )=> void;
 };
@@ -34,9 +33,9 @@ export default function CartProduct({item , handleRemoveCartItem}:CartProductPro
     const response = await servicesApi.updateCount(item.product._id, newCount);
 
     if (response.status === "success" && response.product) {
-    setIsCartCount(response.product.count);
+    setIsCartCount(response?.product?.count);
     toast.success("Update Count Product Successfully ✅");
-    } else {
+    } else if (response.status === "error"){
     toast.error("Failed to update product count ❌");
     }
     }, 1000);
@@ -90,7 +89,8 @@ export default function CartProduct({item , handleRemoveCartItem}:CartProductPro
                     {/* quantity control */}
                     <div className="flex items-center gap-2">
                     {/* decrement */}
-                    <Button onClick={()=>handleUpdateCount(isCartCount - 1)} variant="outline" size="sm">
+                    <Button onClick={()=>
+                        handleUpdateCount(isCartCount - 1)} variant="outline" size="sm">
                     <Minus className="h-4 w-4" />
                     </Button>
 

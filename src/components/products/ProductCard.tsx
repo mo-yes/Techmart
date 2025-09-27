@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/interfaces";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Heart, Loader2 } from "lucide-react";
+import { Heart, Loader2 } from "lucide-react";
 import { renderStars } from "@/helpers/rating";
 import { formatPrice } from "@/helpers/currency";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddToCartButton from "./AddToCartButton";
-import { cartContext } from "@/Context/cartContext";
+import { useCartContext } from "@/Context/cartContext";
 import { servicesApi } from "@/services";
 import toast from "react-hot-toast";
 
@@ -16,29 +16,35 @@ interface ProductCardProps {
   product: Product;
   viewMode?: "grid" | "list";
 }
-interface WishlistItem {
-  _id: string;
+
+// fetchWishlist response
+interface FetchWishlistResponse {
+  status: string;
+  count: number;
+  data: Product[];
 }
-interface WishlistResponse {
+
+// add/remove wishlist response
+interface ToggleWishlistResponse {
   status: string;
   message: string;
-  data: WishlistItem[];
+  data: string[]; // just IDs
 }
+
 export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { handleAddToCart } = useContext(cartContext);
+  const { handleAddToCart } = useCartContext();
 
   const [addingToWishlist, setAddingToWishlist] = useState(false);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
 
-  // جلب wishlist عند أول تحميل للكومبوننت
+  // fetch wishlist
   useEffect(() => {
     async function fetchWishlist() {
       try {
-        const res:WishlistResponse = await servicesApi.getUserWishlist();
+        const res: FetchWishlistResponse = await servicesApi.getUserWishlist();
         if (res?.status === "success" && res.data) {
-          const ids = res.data.map((p: WishlistItem) => p._id);
-          setWishlistIds(ids);
+          setWishlistIds(res.data.map((p) => p._id));
         }
       } catch (err) {
         console.log("wishlist fetch error:", err);
@@ -48,36 +54,26 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
   }, []);
 
   // toggle wishlist
-async function handleToggleWishlist(productId: string) {
-  setAddingToWishlist(true);
+  async function handleToggleWishlist(productId: string) {
+    setAddingToWishlist(true);
 
-  try {
-    if (wishlistIds.includes(productId)) {
-      // المنتج موجود → نقدر نحذفه
-      // هنا لازم تستخدم ID اللي موجود في state
-      const idToRemove = wishlistIds.find(id => id === productId);
-      if (idToRemove) {
-        const data = await servicesApi.removeWishlist(idToRemove);
-        toast.success(data.message)
-        console.log(data)
-        setWishlistIds(prev => prev.filter(id => id !== idToRemove));
-      }
-    } else {
-      // المنتج مش موجود → نضيفه
-      const res = await servicesApi.addToWishlist(productId);
-      console.log(res)
-      toast.success(res.message)
-      if (res?.data) {
-        // استخدم الـ array اللي بيرجعه السيرفر لتحديث الـ state
+    try {
+      if (wishlistIds.includes(productId)) {
+        const res: ToggleWishlistResponse = await servicesApi.removeWishlist(productId);
+        toast.success(res.message);
+        setWishlistIds(res.data);
+      } else {
+        const res: ToggleWishlistResponse = await servicesApi.addToWishlist(productId);
+        toast.success(res.message);
         setWishlistIds(res.data);
       }
+    } catch (err) {
+      console.log("wishlist toggle error:", err);
     }
-  } catch (err) {
-    console.log("wishlist toggle error:", err);
+
+    setAddingToWishlist(false);
   }
 
-  setAddingToWishlist(false);
-}
   const isInWishlist = wishlistIds.includes(product._id);
 
   // ----- LIST MODE -----
@@ -109,6 +105,7 @@ async function handleToggleWishlist(productId: string) {
               onClick={() => handleToggleWishlist(product._id)}
               variant="ghost"
               size="sm"
+              disabled={addingToWishlist}
             >
               {addingToWishlist ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -166,17 +163,14 @@ async function handleToggleWishlist(productId: string) {
               </div>
             </div>
 
-            <Button
-              onClick={() => handleAddToCart!(product._id, setIsAddingToCart)}
-              disabled={isAddingToCart}
-            >
-              {isAddingToCart ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                <ShoppingCart className="h-4 w-4 mr-2" />
-              )}
-              Add to Cart
-            </Button>
+            <div className=" w-auto">
+              <AddToCartButton
+                productQuantity={product.quantity}
+                handleAddToCart={() =>
+                  handleAddToCart!(product._id, setIsAddingToCart)
+                }
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -200,6 +194,7 @@ async function handleToggleWishlist(productId: string) {
           variant="ghost"
           size="sm"
           className="absolute top-2 right-2 bg-white/70"
+          disabled={addingToWishlist}
         >
           {addingToWishlist ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -256,7 +251,6 @@ async function handleToggleWishlist(productId: string) {
           handleAddToCart={() =>
             handleAddToCart!(product._id, setIsAddingToCart)
           }
-          isAddingToCart={isAddingToCart}
         />
       </div>
     </div>

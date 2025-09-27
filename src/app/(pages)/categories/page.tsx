@@ -1,11 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Category, Product } from "@/interfaces";
-import { ProductCard } from "@/components/products/ProductCard";
+import { Category} from "@/interfaces";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, Grid, List } from "lucide-react";
-import { CategoriesResponse, ProductsResponse } from "@/types";
+import { Grid, List } from "lucide-react";
+import { CategoriesResponse} from "@/types";
 import { cn } from "@/lib/utils";
 import { servicesApi } from "@/services";
 import { CategoriesCart } from "@/components/Categories";

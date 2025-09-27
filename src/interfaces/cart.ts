@@ -59,10 +59,19 @@ export interface ClearCartResponse {
   status: string;
 }
 
-export interface UpdateCartResponse {
-  status: string; 
-  product: Product;
+// responses.ts
+export interface FetchWishlistResponse {
+  status: string;
+  count: number;
+  data: Product[];
 }
+
+export interface ToggleWishlistResponse {
+  status: string;
+  message: string;
+  data: string[]; // just product IDs
+}
+
 
 export interface WishlistResponse{
   status:string,
@@ -70,5 +79,19 @@ export interface WishlistResponse{
   data:string | number
 }
 
+interface UpdateCartSuccess {
+  status: "success";
+  product: CartProduct<Product>;
+}
+
+interface UpdateCartError {
+  status: "error";
+  error: {
+    statusMsg: string;
+    message: string;
+  };
+}
+
+export type UpdateCartResponse = UpdateCartSuccess | UpdateCartError;
 
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingCart, Search, User, Menu, X, Loader2 } from "lucide-react";
+import { ShoppingCart, User, Menu, X, Loader2, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components";
 import {
   NavigationMenu,
@@ -11,19 +11,38 @@ import {
   NavigationMenuList,
 } from "@/components";
 import { cn } from "@/lib/utils";
-import React, { useContext, useState } from "react";
-import { cartContext } from "@/Context/cartContext";
+import React, { useState } from "react";
+import { useCartContext } from "@/Context/cartContext";
+import { signOut, useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 export function Navbar() {
+  const { data: session, status } = useSession();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { cartCount , isLoading} = useContext(cartContext);
+  const { cartCount, isLoading } = useCartContext();
 
   const navItems = [
     { href: "/products", label: "Products" },
     { href: "/brands", label: "Brands" },
     { href: "/categories", label: "Categories" },
   ];
+
+  // Logout handler with confirmation
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, logout",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      signOut({ callbackUrl: "/auth/login" });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -32,11 +51,9 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
             <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">
-                M
-              </span>
+              <span className="text-primary-foreground font-bold text-lg">E</span>
             </div>
-            <span className="font-bold text-xl">Many Mart</span>
+            <span className="font-bold text-xl">EasyMart</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -44,7 +61,6 @@ export function Navbar() {
             <NavigationMenuList>
               {navItems.map((navItem) => {
                 const isActive = pathname.startsWith(navItem.href);
-
                 return (
                   <NavigationMenuItem key={navItem.href}>
                     <Link href={navItem.href}>
@@ -67,36 +83,67 @@ export function Navbar() {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-2">
-            {/* User Account */}
-            <Link href={"/profile"}>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-              <span className="sr-only">Account</span>
-            </Button></Link>
+            {status === "loading" ? (
+              // Show loading indicator while session is checking
+              <span>Loading...</span>
+            ) : status === "authenticated" ? (
+              <>
+                {/* User Account */}
+                <Link href="/profile">
+                  <Button variant="ghost" size="icon">
+                    <User className="h-5 w-5" />
+                    <span className="sr-only">Account</span>
+                  </Button>
+                </Link>
 
-            {/* Shopping Cart */}
-            <Link href={"/cart"}>
-            <Button variant="ghost" size="icon" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-xs text-primary-foreground flex items-center justify-center">
-                  {isLoading ? <Loader2 className=" animate-spin" /> : cartCount}
-                </span>
-                <span className="sr-only">Shopping cart</span>
-            </Button>
-            </Link>
+                {/* Shopping Cart */}
+                <Link href="/cart">
+                  <Button variant="ghost" size="icon" className="relative">
+                    <ShoppingCart className="h-5 w-5" />
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-xs text-primary-foreground flex items-center justify-center">
+                      {isLoading ? <Loader2 className="animate-spin" /> : cartCount}
+                    </span>
+                    <span className="sr-only">Shopping cart</span>
+                  </Button>
+                </Link>
 
-            {/* Mobile Menu */}
+                {/* Greeting and Logout */}
+                <div className="flex gap-3 items-center">
+                  <Link href="/profile">
+                    <h6>Hi {session?.user?.name?.split(" ")[0]}</h6>
+                  </Link>
+                  <Button onClick={handleLogout} variant="outline">
+                    <LogOut className="h-5 w-5" />
+                    <span>Logout</span>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Sign In / Sign Up Buttons */}
+                <Link href="/auth/login">
+                  <Button variant="outline">
+                    <LogIn className="mr-1 h-4 w-4" />
+                    Sign in
+                  </Button>
+                </Link>
+                <Link href="/auth/register">
+                  <Button variant="default">
+                    <User className="mr-1 h-4 w-4" />
+                    Sign up
+                  </Button>
+                </Link>
+              </>
+            )}
+
+            {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
               size="icon"
               className="lg:hidden"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               <span className="sr-only">Menu</span>
             </Button>
           </div>
@@ -109,7 +156,6 @@ export function Navbar() {
               <nav className="flex flex-col space-y-2">
                 {navItems.map((item) => {
                   const isActive = pathname.startsWith(item.href);
-
                   return (
                     <Link
                       key={item.href}

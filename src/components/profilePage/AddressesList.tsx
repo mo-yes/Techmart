@@ -1,21 +1,19 @@
-"use client";
-
-import Swal from "sweetalert2";
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Loader2, Trash2 } from "lucide-react";
-import { servicesApi } from "@/services"; 
-import toast from "react-hot-toast";
 import { Address } from "@/interfaces";
+import { servicesApi } from "@/services";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
+import { Button } from "../ui";
+import { Loader2, Trash2 } from "lucide-react";
 
 export default function AddressesList({
   addresses,
   onDeleted,
 }: {
   addresses: Address[];
-  onDeleted: (newAddresses: Address[]) => void;
+  onDeleted: (id: string) => void;
 }) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
@@ -37,9 +35,9 @@ export default function AddressesList({
         const res = await servicesApi.removeAddress(id);
         if (res.status === "success") {
           Swal.fire("Deleted!", "Address has been deleted.", "success");
-          onDeleted(res.data); 
+          onDeleted(id); // ✅ Pass only the id
         } else {
-          toast.error(res.message || "Failed to delete address");
+          toast.error("Failed to delete address");
         }
       } catch (err) {
         toast.error("Network error while deleting");
@@ -61,7 +59,6 @@ export default function AddressesList({
   return (
     <div className="space-y-3">
       {addresses.map((addr) => (
-        
         <Card key={addr._id}>
           <CardContent className="flex items-center justify-between gap-4">
             <div>
@@ -71,16 +68,8 @@ export default function AddressesList({
               <p className="text-sm">{addr.city}</p>
             </div>
             <div className="flex items-center gap-2">
-              <Link href={"/my-orders"}>
-              <Button
-                variant="default"
-              >
-                My Orders
-              </Button>
-              </Link>
-                {/* 👇 هنا نضيف زرار View */}
               <Link href={`/profile/${addr._id}`}>
-              <Button variant="outline">View</Button>
+                <Button variant="outline">View</Button>
               </Link>
               <Button
                 variant="destructive"

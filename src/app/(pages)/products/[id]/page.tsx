@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect} from "react";
 import Image from "next/image";
 import { useParams, } from "next/navigation";
 import { Product } from "@/interfaces";
@@ -12,7 +12,7 @@ import { formatPrice } from "@/helpers/currency";
 import { SingleProductResponse } from "@/types";
 import { servicesApi } from "@/services";
 import AddToCartButton from "@/components/products/AddToCartButton";
-import { cartContext } from "@/Context/cartContext";
+import { useCartContext } from "@/Context/cartContext";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -22,7 +22,9 @@ export default function ProductDetailPage() {
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(-1);
   const [AddToCartLoading, setAddToCartLoading] = useState(false);
-  const {  handleAddToCart} = useContext(cartContext);
+  const { handleAddToCart } = useCartContext();
+
+
   
   async function fetchProductDetails(){
     setLoading(true)
@@ -175,7 +177,7 @@ export default function ProductDetailPage() {
           <div className="flex gap-4">
             <AddToCartButton 
             handleAddToCart={()=>handleAddToCart!(product._id ,setAddToCartLoading)} 
-            isAddingToCart={AddToCartLoading} />
+            />
 
             <Button variant="outline" size="lg">
               <Heart className="h-5 w-5" />

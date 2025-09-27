@@ -4,7 +4,7 @@ import { Product } from "@/interfaces";
 import { ProductCard } from "@/components/products/ProductCard";
 import { LoadingSpinner } from "@/components/shared/LoadingSpinner";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, Grid, List } from "lucide-react";
+import {  Grid, List } from "lucide-react";
 import { ProductsResponse } from "@/types";
 import { cn } from "@/lib/utils";
 import { servicesApi } from "@/services";
@@ -20,7 +20,6 @@ export default function ProductsPage() {
     const data: ProductsResponse = await servicesApi.getAllProducts()
     setLoading(false)
     setProducts(data.data)
-    // console.log(data.data)
   }
 
   useEffect(() => {

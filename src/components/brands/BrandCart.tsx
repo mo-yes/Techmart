@@ -14,13 +14,22 @@ interface BrandCardProps {
 }
 
 export function BrandCart({ brand, viewMode = "grid" }: BrandCardProps) {
-  const [viewProduct, setViewProduct] = useState(false);
-  const [brandProduct, setBrandProduct] = useState<Product[]>();
+  const [viewProduct, setViewProduct] = useState<boolean>(false);
+  const [brandProduct, setBrandProduct] = useState<Product[]>([]); 
 
-  async function handleViewProduct(){
-    const data = await servicesApi.getProductsByBrand(brand._id)
-    setBrandProduct(data.data)
+
+  async function handleViewProduct() {
+  try {
+    const data = await servicesApi.getProductsByBrand(brand._id);
+    if (data?.data) {
+      setBrandProduct(data.data);
+      setViewProduct(true);
+    }
+  } catch (err) {
+    console.error(err);
   }
+}
+
 
   if (viewMode === "list") {
     return (
@@ -62,12 +71,13 @@ export function BrandCart({ brand, viewMode = "grid" }: BrandCardProps) {
                 </span>
               </div>
             </div>
-            <ViewButton 
+            <div className=" w-auto">
+              <ViewButton 
             handleViewProduct={handleViewProduct} 
-            viewMode={viewMode}  
             viewProduct={viewProduct}
             brand={brand}
             />
+            </div>
           </div>
         </div>
       </div>
@@ -119,7 +129,6 @@ export function BrandCart({ brand, viewMode = "grid" }: BrandCardProps) {
         <div className="p-4">
           <ViewButton 
           handleViewProduct={handleViewProduct}
-          viewMode={viewMode}  
           viewProduct={viewProduct}
           brand={brand}
           />

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { servicesApi } from "@/services";
-import { Order } from "@/interfaces";
+import { Order, CreateOrderResponse } from "@/interfaces";
 import Loading from "@/app/loading";
 
 export default function SuccessOrdersPage() {
@@ -13,7 +13,7 @@ export default function SuccessOrdersPage() {
 
   useEffect(() => {
     async function fetchOrder() {
-      const response = await servicesApi.getOrderById(id as string);
+      const response: CreateOrderResponse = await servicesApi.getOrderById(id as string);
       setOrder(response.data);
     }
     if (id) fetchOrder();

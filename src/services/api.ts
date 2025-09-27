@@ -4,6 +4,7 @@ import {
   AddToCartResponse,
   CartProduct,
   ClearCartResponse,
+  CreateOrderResponse,
   FetchWishlistResponse,
   Product,
   RemoveCartResponse,
@@ -245,7 +246,7 @@ async getUserWishlist(): Promise<FetchWishlistResponse> {
     ).then((res) => res.json());
   }
 
-  async getOrderById(orderId: string): Promise<ShippingAddress> {
+  async getOrderById(orderId: string): Promise<CreateOrderResponse> {
     const headers = await this.#getHeaders();
     return await fetch(this.#baseUrl + "api/v1/orders/" + orderId, {
       headers,

@@ -17,18 +17,16 @@ interface ProductCardProps {
   viewMode?: "grid" | "list";
 }
 
-// fetchWishlist response
 interface FetchWishlistResponse {
   status: string;
   count: number;
   data: Product[];
 }
 
-// add/remove wishlist response
 interface ToggleWishlistResponse {
   status: string;
   message: string;
-  data: string[]; // just IDs
+  data: string[]; 
 }
 
 export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
@@ -38,7 +36,6 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
   const [addingToWishlist, setAddingToWishlist] = useState(false);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
 
-  // fetch wishlist
   useEffect(() => {
     async function fetchWishlist() {
       try {
@@ -53,7 +50,6 @@ export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
     fetchWishlist();
   }, []);
 
-  // toggle wishlist
   async function handleToggleWishlist(productId: string) {
     setAddingToWishlist(true);
 

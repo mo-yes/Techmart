@@ -48,7 +48,7 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <header className="container mx-auto px-4 py-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-4">Products</h1>
@@ -57,7 +57,7 @@ export default function CategoriesPage() {
         </p>
       </div>
 
-      <div className="flex items-center mb-10 justify-end p-2">
+      <section className="flex items-center mb-10 justify-end p-2">
         <div className="flex items-center border rounded-md">
           <Button
             variant={viewMode === "grid" ? "default" : "ghost"}
@@ -76,7 +76,7 @@ export default function CategoriesPage() {
             <List className="h-4 w-4" />
           </Button>
         </div>
-      </div>
+      </section>
 
       {/* Products Grid */}
       <div
@@ -95,6 +95,6 @@ export default function CategoriesPage() {
           />
         ))}
       </div>
-    </div>
+    </header>
   ); 
 }

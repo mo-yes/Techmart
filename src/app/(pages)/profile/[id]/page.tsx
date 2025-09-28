@@ -26,7 +26,7 @@ export default function AddressDetailsPage() {
         setAddress(res.data); 
       }
     } catch (err) {
-      console.error(err);
+    console.log("🚀 ~ fetchAddress ~ err:", err)
     } finally {
       setLoading(false);
     }
@@ -57,12 +57,12 @@ const handleDelete = async () => {
     const res = await servicesApi.removeAddress(address._id);
     if (res.status === "success") {
       Swal.fire("Deleted!", "Address has been deleted.", "success");
-      router.back(); // go back after deletion
+      router.back(); 
     } else {
       Swal.fire("Error!", "Failed to delete address.", "error");
     }
   } catch (err) {
-    console.error(err);
+    console.log("🚀 ~ handleDelete ~ err:", err)
     Swal.fire("Error!", "Failed to delete address.", "error");
   } finally {
     setActionLoading(false);
@@ -73,7 +73,6 @@ const handleDelete = async () => {
   const handleSelect = () => {
     if (!address) return;
     toast.success("Address selected!");
-    // هنا ممكن تحط أي لوجيك لتحديد العنوان
   };
 
   if (loading) return <Loading />;
@@ -81,7 +80,8 @@ const handleDelete = async () => {
   if (!address) return <p className="text-center mt-10">No address found.</p>;
 
   return (
-    <Card className="w-full border rounded-xl shadow-sm hover:shadow-lg transition-shadow bg-white flex flex-col h-full">
+    <section>
+      <Card className="w-full border rounded-xl shadow-sm hover:shadow-lg transition-shadow bg-white flex flex-col h-full">
       <CardContent className="flex flex-col h-full p-6 gap-6">
         {/* Title */}
         <div className="flex items-center justify-between">
@@ -130,5 +130,6 @@ const handleDelete = async () => {
         </div>
       </CardContent>
     </Card>
+    </section>
   );
 }

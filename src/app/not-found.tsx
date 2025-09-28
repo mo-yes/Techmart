@@ -12,7 +12,7 @@ export default function NotFound() {
   ]
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4">
+    <section className="min-h-[70vh] flex items-center justify-center px-4">
       <div className="text-center space-y-8 max-w-2xl">
         {/* 404 Illustration */}
         <div className="space-y-4">
@@ -101,6 +101,6 @@ export default function NotFound() {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

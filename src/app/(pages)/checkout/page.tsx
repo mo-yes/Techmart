@@ -23,8 +23,6 @@ export default function CheckoutPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  // 🟢 كاش
-
 
 const handleCashOrder = async () => {
   if (!cartId) return toast.error("Cart not found");
@@ -35,6 +33,7 @@ const handleCashOrder = async () => {
     toast.success("Cash order created");
     router.push(`/allorders/${response.data._id}`);
   } catch (err) {
+    console.log("🚀 ~ handleCashOrder ~ err:", err)
     toast.error("Failed to create Cash Order");
   } finally {
     setLoading(false);
@@ -58,6 +57,7 @@ const handleCashOrder = async () => {
         toast.error("No payment URL returned");
       }
     } catch (err) {
+      console.log("🚀 ~ handleOnlineOrder ~ err:", err)
       toast.error("Failed to create Online Order");
     } finally {
       setOnLinePay(false);

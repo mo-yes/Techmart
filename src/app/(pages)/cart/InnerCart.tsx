@@ -50,13 +50,13 @@ export default function InnerCart({cartData}:InnerCartProps) {
     return (
     <>
         {/* Header */}
-        <div className="mb-8">
+        <header className="mb-8">
         <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>
         {innerCartData.numOfCartItems > 0 &&  <p className="text-muted-foreground">
         {innerCartData.numOfCartItems} item
         {innerCartData.numOfCartItems > 1 ? "s" : ""} in your cart
         </p>}
-        </div>
+        </header>
 
         {innerCartData.numOfCartItems > 0 
         ? <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

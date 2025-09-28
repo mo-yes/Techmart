@@ -19,7 +19,11 @@ export default function ProfilePage() {
       if (res.status === "success") {
         setAddresses(res.data);
       }
-    } finally {
+    } catch(error){
+    console.log("🚀 ~ fetchAddresses ~ error:", error)
+
+    }
+     finally {
       setLoading(false);
     }
   }
@@ -28,7 +32,6 @@ export default function ProfilePage() {
     fetchAddresses();
   }, []);
 
-  // Delete address locally after successful deletion
   const handleDelete = (id: string) => {
     setAddresses(prev => prev.filter(addr => addr._id !== id));
   };
@@ -42,7 +45,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
+    <section className="max-w-4xl mx-auto py-10 px-4">
       {/* Page Header */}
       <div className="flex items-center gap-3 mb-8 animate-fade-in">
         <UserCircle className="h-10 w-10 text-primary animate-bounce" />
@@ -78,13 +81,13 @@ export default function ProfilePage() {
               <UserForm
                 onAdded={() => {
                   fetchAddresses();
-                  setShowForm(false); // hide form after adding
+                  setShowForm(false); 
                 }}
               />
             </div>
           )}
         </>
       )}
-    </div>
+    </section>
   );
 }

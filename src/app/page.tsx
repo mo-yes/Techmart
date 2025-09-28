@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="container mx-auto px-4 py-40">
+    <section className="container mx-auto px-4 py-40">
       <div className="text-center space-y-6">
         <h1 className="text-4xl font-bold tracking-tight lg:text-6xl">
           Welcome to TechMart 
@@ -21,6 +21,6 @@ export default function Home() {
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

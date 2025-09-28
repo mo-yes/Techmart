@@ -27,8 +27,8 @@ export default function CategoriesDetailsPage() {
       const data: SingleCategoryResponse = await servicesApi.getCategorieDetails(String(id));
       setSingleCategory(data.data);
     } catch (err) {
+      console.log("🚀 ~ fetchCategoryDetails ~ err:", err)
       setError("Failed to fetch category");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ export default function CategoriesDetailsPage() {
         <div className="relative w-32 h-32 rounded-xl overflow-hidden shadow-md">
           {singleCategory.image ? (
             <Image
-              src={singleCategory.image || "/placeholder.png"} // fallback image
+              src={singleCategory.image || "/placeholder.png"} 
               alt={singleCategory.name || "Category Image"}
               fill
               className="object-cover"
@@ -101,7 +101,7 @@ export default function CategoriesDetailsPage() {
         >
           <div className="relative w-full aspect-[4/3] bg-gray-50">
             <Image
-              src={singleCategory.image || "/placeholder.png"} // fallback
+              src={singleCategory.image || "/placeholder.png"} 
               alt={singleCategory.name || "Category Image"}
               fill
               className=" object-fill transition-transform duration-300 group-hover:scale-105"

@@ -17,14 +17,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react"; // أيقونة سبينر من lucide
+import { Loader2 } from "lucide-react"; 
 
 import { servicesApi } from "@/services";
 import { registerFormSchema, RegisterSchema } from "@/schemas/register-schema";
 
 export default function Register() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); // ✅ state لللودنج
+  const [loading, setLoading] = useState(false); 
 
   const form = useForm<RegisterSchema>({
     resolver: zodResolver(registerFormSchema),
@@ -40,7 +40,7 @@ export default function Register() {
 
   async function onSubmit(values: RegisterSchema) {
     try {
-      setLoading(true); // ✅ بدء اللودنج
+      setLoading(true); 
       const response = await servicesApi.register(values);
 
       if (response.message === "success") {
@@ -50,14 +50,15 @@ export default function Register() {
         toast.error(response.message || "Something went wrong");
       }
     } catch (error) {
+      console.log("🚀 ~ onSubmit ~ error:", error)
       toast.error("Server error, please try again later.");
     } finally {
-      setLoading(false); // ✅ إيقاف اللودنج
+      setLoading(false); 
     }
   }
 
   return (
-    <div className="max-w-xl mx-auto my-10">
+    <section className="max-w-xl mx-auto my-10">
       <h1 className="my-2 text-center text-2xl font-bold animate-bounce">
         Register...
       </h1>
@@ -142,7 +143,6 @@ export default function Register() {
             )}
           />
 
-          {/* زرار الريجستر مع لودنج */}
           <Button type="submit" disabled={loading} className="w-full">
             {loading ? (
               <>
@@ -162,6 +162,6 @@ export default function Register() {
           </p>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }

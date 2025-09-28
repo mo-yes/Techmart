@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Brand, Category, Product} from "@/interfaces";
+import { Category} from "@/interfaces";
 import { Button } from "@/components/ui/button";
 import {  Heart,} from "lucide-react";
 
@@ -63,7 +63,7 @@ export function CategoriesCart({ category, viewMode = "grid" }: CategorieCardPro
     <div className="group flex flex-col justify-between relative bg-white border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300">
         {/*Cart */}
         <div className="">
-          {/* Product Image */}
+          {/* Category Image */}
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={category.image || "/placeholder.png"}
@@ -83,7 +83,7 @@ export function CategoriesCart({ category, viewMode = "grid" }: CategorieCardPro
         </Button>
       </div>
 
-      {/* Brand Info */}
+      {/* Category Info */}
       <div className="p-4">
         {/* Title */}
         <h3 className="font-semibold text-sm text-center mb-2 line-clamp-1 hover:text-primary transition-colors">

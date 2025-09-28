@@ -20,7 +20,6 @@ import toast from "react-hot-toast"
 import { servicesApi } from "@/services"
 import { Loader2 } from "lucide-react"
 
-// ✅ Zod validation
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   details: z.string().min(5, "Details must be at least 5 characters."),
@@ -45,18 +44,16 @@ export default function UserForm({ onAdded }: { onAdded?: () => void }) {
     setLoading(true)
 
     const res = await servicesApi.addAddresses(values)
-    // console.log(res)
 
     if (res.status === "success") {
       toast.success("Address created successfully!")
       onAdded?.()
-      // console.log("✅ success:", res)
     } else {
       toast.error("Something went wrong!")
     }
   } catch (err) {
+    console.log("🚀 ~ onSubmit ~ err:", err)
     toast.error("Network error!")
-    console.error(err)
   } finally {
     setLoading(false)
   }

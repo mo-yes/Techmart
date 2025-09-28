@@ -12,12 +12,11 @@ interface ErrorProps {
 
 export default function Error({ error, reset }: ErrorProps) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error("Application error:", error);
   }, [error]);
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4">
+    <section className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="text-center space-y-6 max-w-md">
         {/* Error Icon */}
         <div className="flex justify-center">
@@ -70,6 +69,6 @@ export default function Error({ error, reset }: ErrorProps) {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

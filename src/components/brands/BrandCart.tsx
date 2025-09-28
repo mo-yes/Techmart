@@ -26,7 +26,7 @@ export function BrandCart({ brand, viewMode = "grid" }: BrandCardProps) {
       setViewProduct(true);
     }
   } catch (err) {
-    console.error(err);
+  console.log("🚀 ~ handleViewProduct ~ err:", err)
   }
 }
 

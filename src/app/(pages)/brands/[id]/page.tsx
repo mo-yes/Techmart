@@ -10,7 +10,6 @@ import { ProductsResponse } from "@/types";
 import { servicesApi } from "@/services";
 import AddToCartButton from "@/components/products/AddToCartButton";
 import { useCartContext } from "@/Context/cartContext";
-import Link from "next/link";
 
 export default function BrandDetailPage() {
   const { id } = useParams();
@@ -26,6 +25,7 @@ export default function BrandDetailPage() {
       const data: ProductsResponse = await servicesApi.getProductsByBrand(String(id));
       setBrandProducts(data.data);
     } catch (err) {
+      console.log("🚀 ~ fetchBrandDetails ~ err:", err)
       setError("Failed to load brand products.");
     } finally {
       setLoading(false);
@@ -78,7 +78,7 @@ export default function BrandDetailPage() {
                 <AddToCartButton
                   productQuantity={product.quantity}
                   handleAddToCart={() => handleAddToCart(product._id, setIsAddingToCart)}
-                  isAddingToCart={isAddingToCart} // ✅ مهم
+                  isAddingToCart={isAddingToCart} 
                 />
               </div>
             </article>

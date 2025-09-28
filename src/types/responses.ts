@@ -5,7 +5,6 @@ export type BrandsResponse = ApiResponse<Brand>;
 export type CategoriesResponse = ApiResponse<Category>;
 export type SubcategoriesResponse = ApiResponse<Subcategory>;
 
-// Single item responses
 export type SingleBrandResponse = {
   data: Brand;
 }

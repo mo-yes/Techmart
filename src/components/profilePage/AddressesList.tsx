@@ -35,7 +35,7 @@ export default function AddressesList({
         const res = await servicesApi.removeAddress(id);
         if (res.status === "success") {
           Swal.fire("Deleted!", "Address has been deleted.", "success");
-          onDeleted(id); // ✅ Pass only the id
+          onDeleted(id); 
         } else {
           toast.error("Failed to delete address");
         }

@@ -59,7 +59,7 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-xl mx-auto my-10">
+    <section className="max-w-xl mx-auto my-10">
       <h1 className="my-2 text-center text-2xl font-bold animate-bounce">
         Login
       </h1>
@@ -99,7 +99,6 @@ export default function Login() {
             )}
           />
 
-          {/* زرار اللوجن مع اللودنج */}
           <Button type="submit" disabled={signingIn} className="w-full">
             {signingIn ? (
               <>
@@ -119,6 +118,6 @@ export default function Login() {
           </p>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }

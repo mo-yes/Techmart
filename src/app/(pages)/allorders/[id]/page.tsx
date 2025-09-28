@@ -22,7 +22,7 @@ export default function SuccessOrdersPage() {
   if (!order) return <Loading />;
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-green-50 px-4">
+    <section className="flex items-center justify-center min-h-screen bg-green-50 px-4">
       <Card className="max-w-lg w-full shadow-xl border border-green-200 animate-fadeIn">
         <CardHeader className="text-center">
           <h2 className="text-2xl font-bold text-green-600 animate-bounce">
@@ -40,6 +40,6 @@ export default function SuccessOrdersPage() {
           <p className="animate-fadeInUp delay-800"><b>Address:</b> {order.shippingAddress.details}</p>
         </CardContent>
       </Card>
-    </div>
+    </section>
   );
 }

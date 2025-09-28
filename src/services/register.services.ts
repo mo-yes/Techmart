@@ -13,7 +13,7 @@ export async function handleRegister(formState:FormStateType,formData:FormData){
 };
 
 const parsedData = registerFormSchema.safeParse(formValues)
-    console.log("🚀 ~ handleRegister ~ parsedData:", parsedData.error?.flatten().fieldErrors)
+    // console.log("🚀 ~ handleRegister ~ parsedData:", parsedData.error?.flatten().fieldErrors)
     if(!parsedData.success){
         return {
   success:false,
@@ -27,7 +27,6 @@ const parsedData = registerFormSchema.safeParse(formValues)
             headers:{"Content-type" : "application/json"},
             body:JSON.stringify(formValues)});
 
-            // console.log("🚀 ~ handleRegister ~ formValues:", formValues)
             const data = await res.json()
             if(!res.ok){
                 return {

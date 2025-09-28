@@ -28,7 +28,6 @@ export function Navbar() {
     { href: "/categories", label: "Categories" },
   ];
 
-  // Logout handler with confirmation
   const handleLogout = async () => {
     const result = await Swal.fire({
       title: "Are you sure you want to logout?",
@@ -84,7 +83,6 @@ export function Navbar() {
           {/* Action Buttons */}
           <div className="flex items-center space-x-2">
             {status === "loading" ? (
-              // Show loading indicator while session is checking
               <span>Loading...</span>
             ) : status === "authenticated" ? (
               <>

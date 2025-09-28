@@ -52,8 +52,7 @@ export default function UserForm({ onAdded }: { onAdded?: () => void }) {
       onAdded?.()
       // console.log("✅ success:", res)
     } else {
-      toast.error(res.message || "Something went wrong!")
-      console.error("❌ error:", res)
+      toast.error("Something went wrong!")
     }
   } catch (err) {
     toast.error("Network error!")

@@ -3,9 +3,12 @@ import { Button } from '@/components/ui/button';
 import { Box, Loader2 } from 'lucide-react';
 
 interface AddToCartButtonProps {
-  handleAddToCart: () => Promise<void>; 
-  productQuantity?: number;
+  productQuantity?: number;     
+  handleAddToCart: () => Promise<void>;
+  isAddingToCart?: boolean;      
 }
+
+
 
 export default function AddToCartButton({ handleAddToCart, productQuantity }: AddToCartButtonProps) {
   const [isAdding, setIsAdding] = useState(false);

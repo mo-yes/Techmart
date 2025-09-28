@@ -18,7 +18,7 @@ export function CategoriesCart({ category, viewMode = "grid" }: CategorieCardPro
       <div className="flex gap-4 p-4 border rounded-lg hover:shadow-md transition-shadow">
         <div className="relative w-32 h-32 flex-shrink-0">
           <Image
-            src={category.image}
+            src={category.image || "/placeholder.png"}
             alt={category.name}
             fill
             className="object-cover rounded-md"
@@ -66,8 +66,8 @@ export function CategoriesCart({ category, viewMode = "grid" }: CategorieCardPro
           {/* Product Image */}
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={category.image}
-          alt={category.image}
+          src={category.image || "/placeholder.png"}
+          alt={category.name || "Category image"}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-300"
           sizes="128px"

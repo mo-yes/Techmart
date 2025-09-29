@@ -5,6 +5,10 @@ import { Footer, Navbar } from "@/components";
 import { Toaster } from "react-hot-toast";
 import CartContextProvider from "@/Context/cartContext";
 import ProvidersContainer from "@/components/ProvidersContainer/ProvidersContainer";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,11 +36,11 @@ export default function RootLayout({
       >
         <ProvidersContainer>
           <CartContextProvider>
-          <Navbar />
-          {children}
-          <Toaster position="bottom-right" />
-        <Footer />
-        </CartContextProvider>
+            <Navbar />
+            {children}
+            <Toaster position="bottom-right" />
+            <Footer />
+          </CartContextProvider>
         </ProvidersContainer>
       </body>
     </html>

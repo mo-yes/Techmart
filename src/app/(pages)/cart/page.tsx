@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 
 import React from "react";
 import InnerCart from "./InnerCart";
@@ -5,10 +6,9 @@ import { getUserCart } from "@/services/cart.services";
 
 export default async function Cart() {
   async function fetchCartProducts() {
-    const response = await getUserCart()
+    const response = await getUserCart();
     return response;
-  };
-
+  }
 
   const response = await fetchCartProducts();
 

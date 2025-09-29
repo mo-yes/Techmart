@@ -22,6 +22,7 @@ export default function CategoriesPage() {
     setCategories(data.data)
   }
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchCategories();
   }, []);

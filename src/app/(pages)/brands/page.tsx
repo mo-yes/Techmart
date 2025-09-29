@@ -22,6 +22,7 @@ export default function BrandsPage() {
     setBrands(data.data);
   };
 
+// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchBrands();
   }, []);

@@ -1,3 +1,4 @@
+// src/app/(pages)/cart/page.tsx
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 

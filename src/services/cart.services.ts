@@ -1,7 +1,6 @@
 "use server";
-
+export const dynamic = "force-dynamic";
 import { getUserToken } from "@/lib/server-utils";
-
 
 export async function getUserCart(){
     try {

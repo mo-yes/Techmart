@@ -3,7 +3,11 @@ import { NextResponse , NextRequest } from 'next/server'
  
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-    const token =await getToken({req:request});
+  const cookieName =
+  process.env.NODE_ENV === "production" 
+  ? "__Secure-next-auth.callback-url" 
+  : "next-auth.session-token"
+    const token =await getToken({req:request , cookieName});
     const {pathname , search} = request.nextUrl;
 
     const authRoute = ['/auth/login', '/auth/register'];

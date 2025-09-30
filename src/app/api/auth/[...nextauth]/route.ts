@@ -9,7 +9,7 @@ const handler = NextAuth({
       email: { label: "Email", type: "email", placeholder: "Your-Email@Exampl.com" },
       password: { label: "Password", type: "password" }
     },
-    async authorize(credentials, req) {
+    async authorize(credentials) {
       const res = await servicesApi.login(credentials?.email ?? "", credentials?.password ?? "")
       if(res.message == "success"){
         // const decoded = JSON.parse(atob(res.token.split(".")[1]));

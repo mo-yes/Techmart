@@ -22,7 +22,7 @@ export default function CheckoutPage() {
 
   const [loading, setLoading] = useState(false);
   const [onLinePay, setOnLinePay] = useState(false);
-  const [_, setOrderData] = useState<OrderData | null>(null);
+  const [, setOrderData] = useState<OrderData | null>(null);
 
   const {
     register,

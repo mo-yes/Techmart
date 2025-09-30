@@ -15,7 +15,7 @@ interface BrandCardProps {
 
 export function BrandCart({ brand, viewMode = "grid" }: BrandCardProps) {
   const [viewProduct, setViewProduct] = useState<boolean>(false);
-  const [brandProduct, setBrandProduct] = useState<Product[]>([]); 
+  const [, setBrandProduct] = useState<Product[]>([]); 
 
 
   async function handleViewProduct() {

@@ -9,7 +9,7 @@ import { SingleCategoryResponse } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 
 export default function CategoriesDetailsPage() {
@@ -21,7 +21,7 @@ export default function CategoriesDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [singleCategory, setSingleCategory] = useState<Category | null>(null);
 
-  async function fetchCategoryDetails() {
+  const fetchCategoryDetails= useCallback(async() => {
     try {
       setLoading(true);
       const data: SingleCategoryResponse = await servicesApi.getCategorieDetails(String(id));
@@ -32,12 +32,11 @@ export default function CategoriesDetailsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  },[id])
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchCategoryDetails();
-  }, []);
+  }, [fetchCategoryDetails]);
 
   if (loading) {
     return (

@@ -12,7 +12,7 @@ import { CategoriesCart } from "@/components/Categories";
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   async function fetchCategories(){
@@ -22,7 +22,6 @@ export default function CategoriesPage() {
     setCategories(data.data)
   }
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchCategories();
   }, []);

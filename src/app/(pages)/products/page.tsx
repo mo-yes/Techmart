@@ -12,7 +12,7 @@ import { servicesApi } from "@/services";
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   async function fetchProducts(){
@@ -22,7 +22,6 @@ export default function ProductsPage() {
     setProducts(data.data)
   }
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchProducts();
   }, []);

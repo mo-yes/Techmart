@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/interfaces";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ export default function BrandDetailPage() {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null);
 
-  async function fetchBrandDetails() {
+  const fetchBrandDetails = useCallback(async () => {
     try {
       setLoading(true);
       const data: ProductsResponse = await servicesApi.getProductsByBrand(String(id));
@@ -26,12 +26,12 @@ export default function BrandDetailPage() {
     } finally {
       setLoading(false);
     }
-  }
+  },[id])
 
   // Run fetch on mount
   useEffect(() => {
     fetchBrandDetails();
-  }, [id]);
+  }, [fetchBrandDetails]);
 
   // Loading state UI
   if (loading) {

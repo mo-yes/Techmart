@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect} from "react";
+import { useState, useEffect, useCallback} from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Product } from "@/interfaces";
@@ -19,24 +19,23 @@ export default function ProductDetailPage() {
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [selectedImage, setSelectedImage] = useState(-1);
-  const [AddToCartLoading, setAddToCartLoading] = useState(false);
+  const [, setAddToCartLoading] = useState(false);
   const { handleAddToCart } = useCartContext();
 
 
   
-  async function fetchProductDetails(){
+  const fetchProductDetails= useCallback(async() => {
     setLoading(true)
     const data:SingleProductResponse = await servicesApi.getProductDetails( String(id))
     setLoading(false)
     setProduct(data.data)
-  };
+  },[id]);
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchProductDetails();
-  }, []);
+  }, [fetchProductDetails]);
 
   if (loading) {
     return (

@@ -30,13 +30,12 @@ interface ToggleWishlistResponse {
 }
 
 export function ProductCard({ product, viewMode = "grid" }: ProductCardProps) {
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [, setIsAddingToCart] = useState(false);
   const { handleAddToCart } = useCartContext();
 
   const [addingToWishlist, setAddingToWishlist] = useState(false);
   const [wishlistIds, setWishlistIds] = useState<string[]>([]);
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     async function fetchWishlist() {
       try {

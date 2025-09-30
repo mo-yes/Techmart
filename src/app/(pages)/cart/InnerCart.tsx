@@ -23,11 +23,11 @@ export default function InnerCart({cartData}:InnerCartProps) {
 
     useEffect(()=>{
         setCartCount!(innerCartData.numOfCartItems)
-    },[innerCartData])
+    },[innerCartData , setCartCount])
 
         async function handleRemoveCartItem(productId:string , setIsLoadingRemoveProduct:(value:boolean)=>void){
             setIsLoadingRemoveProduct(true)
-        const response = await servicesApi.removeCartProduct(productId)
+        await servicesApi.removeCartProduct(productId)
         setIsLoadingRemoveProduct(false)
         toast.success("Product Deleted successfully",{
             position:"bottom-right"
@@ -38,7 +38,7 @@ export default function InnerCart({cartData}:InnerCartProps) {
 
     async function handleClearCart(){
         setIsLoadingRemoveCart(true);
-        const response = await servicesApi.clearCart();
+        await servicesApi.clearCart();
         setIsLoadingRemoveCart(false);
         toast.success("Your Card Removed successfully",{
             position:"bottom-right"

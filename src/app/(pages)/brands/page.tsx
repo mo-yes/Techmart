@@ -12,7 +12,7 @@ import { BrandCart } from "@/components/brands";
 export default function BrandsPage() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   async function fetchBrands(){
@@ -22,7 +22,6 @@ export default function BrandsPage() {
     setBrands(data.data);
   };
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchBrands();
   }, []);

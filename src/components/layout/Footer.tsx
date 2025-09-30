@@ -76,7 +76,7 @@ export function Footer() {
                   E
                 </span>
               </div>
-              <span className="font-bold text-xl">EasyMart</span>
+              <span className="font-bold text-xl">Easy Mart</span>
             </Link>
             <p className="text-muted-foreground mb-4 max-w-md">
               Your one-stop destination for the latest technology, fashion, and

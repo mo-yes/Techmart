@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Raleway} from "next/font/google";
 import "./globals.css";
 import { Footer, Navbar } from "@/components";
 import { Toaster } from "react-hot-toast";
@@ -9,15 +9,7 @@ import ProvidersContainer from "@/components/ProvidersContainer/ProvidersContain
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const myFont =Raleway({ weight:['100', '200','300','400','500','600','700','800','900'], subsets:['latin'] });
 
 export const metadata: Metadata = {
   title: "Easy Mart App",
@@ -32,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${myFont.className} antialiased`}
       >
         <ProvidersContainer>
           <CartContextProvider>

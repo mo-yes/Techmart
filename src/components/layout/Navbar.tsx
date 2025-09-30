@@ -52,7 +52,7 @@ export function Navbar() {
             <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-lg">E</span>
             </div>
-            <span className="font-bold text-xl">EasyMart</span>
+            <span className="font-bold text-xl">Easy Mart</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -106,15 +106,20 @@ export function Navbar() {
                 </Link>
 
                 {/* Greeting and Logout */}
-                <div className="flex gap-3 items-center">
-                  <Link href="/profile">
-                    <h6>Hi {session?.user?.name?.split(" ")[0]}</h6>
-                  </Link>
+                {/* Greeting and Logout */}
+            <div className="flex gap-3 items-center">
+                <Link href="/profile">
+                  <div className="flex items-center gap-1 text-sm sm:text-base">
+                      <span>Hi</span>
+                      <span className="font-semibold">{session?.user?.name?.split(" ")[0]}</span>
+                  </div>
+                </Link>
                   <Button onClick={handleLogout} variant="outline">
-                    <LogOut className="h-5 w-5" />
-                    <span>Logout</span>
+                      <LogOut className="h-5 w-5" />
+                      <span>Logout</span>
                   </Button>
-                </div>
+            </div>
+
               </>
             ) : (
               <>
@@ -149,9 +154,10 @@ export function Navbar() {
 
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden absolute w-full border-t bg-background">
-            <div className="container mx-auto px-4 py-4">
-              <nav className="flex flex-col space-y-2">
+            <div className="lg:hidden w-full border-t bg-background">
+                <div className="container mx-auto px-4 py-4">
+                    <nav className="flex flex-col space-y-2">
+
                 {navItems.map((item) => {
                   const isActive = pathname.startsWith(item.href);
                   return (

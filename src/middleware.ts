@@ -8,7 +8,7 @@ const cookieName =
     ? "__Secure-next-auth.session-token" 
     : "next-auth.session-token";      
 
-    const token =await getToken({req:request , cookieName});
+    const token =await getToken({req:request , cookieName, secret: process.env.NEXTAUTH_SECRET});
     const {pathname , search} = request.nextUrl;
 
     const authRoute = ['/auth/login', '/auth/register'];
@@ -33,3 +33,4 @@ const cookieName =
 export const config = {
   matcher: ["/cart", "/profile", "/allorders", "/checkout", "/auth/:path*"],
 }
+

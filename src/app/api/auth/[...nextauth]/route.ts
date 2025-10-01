@@ -12,7 +12,6 @@ const handler = NextAuth({
     async authorize(credentials) {
       const res = await servicesApi.login(credentials?.email ?? "", credentials?.password ?? "")
       if(res.message == "success"){
-        // const decoded = JSON.parse(atob(res.token.split(".")[1]));
         const user = {id:res.user.email , name:res.user.name , email:res.user.email , role:res.user.role , token:res.token }
         return user
       }else{
